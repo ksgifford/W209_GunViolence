@@ -30,8 +30,9 @@ section .section-title {
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
     color: #2f4770;
-    font-size: 20px;
+    font-size: 16px;
 }
+
 .tableauPlaceholder{
   margin: 0 auto;
 }
@@ -50,4 +51,98 @@ div#scroll-bar {
   width: 0;
   height: 10px;
   background-color: gray;
+}
+
+.footnote{
+  margin: 0 auto;
+  width: 850px;
+  font-family: "Arial", sans-serif;
+  font-size: 14px!important;
+  font-style: italic!important;
+}
+ul {
+  list-style-type: none;
+  text-align: left;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+
+/* D3 Map styles */
+/* .map-container{
+  margin: 0 auto;
+} */
+#map{
+  display: block;
+  margin: auto;
+}
+.feature {
+  fill: rgba(255,255,255,0.01);
+  stroke: gray;
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+.counties {
+  fill: rgba(255,255,255,0);
+  stroke: gray;
+  stroke-width: 0px;
+}
+
+.shootings {
+  fill: red;
+  stroke: #2F4F4F;
+  stroke-width: 0.05%;
+  opacity: 0.8;
+}
+
+/* Slider styling adapted from Mike Bostock's Drag Slider */
+/* https://bl.ocks.org/mbostock/6452972 */
+.ticks {
+  font: 10px sans-serif;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: #000;
+  stroke-opacity: 0.3;
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #ddd;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+
+.svg_graph{
+  font-family: sans-serif;
+}
+
+.line {
+  fill: none;
+  stroke: #999999;
+  stroke-width: 5px;
+}
+
+.selected {
+  stroke: #EF5285;
 }

@@ -6,6 +6,11 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-queue/3.0.7/d3-queue.js"></script>
+
 	<link rel="stylesheet" href="./css/styles.css">
 </head>
 <!------ Include the above in your HEAD tag ---------->
@@ -14,109 +19,172 @@
 	<!-- Tabs -->
 	<section id="tabs">
 		<div class="container">
-			<h6 class="section-title h1">Title</h6>
+			<h6 class="section-title h1">Gun Violence Visualized</h6>
 			<div class="row">
 				<div class="col-xs-12 ">
 					<nav>
 						<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
 							<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
 							<a class="nav-item nav-link" id="nav-international-tab" data-toggle="tab" href="#nav-international" role="tab" aria-controls="nav-profile" aria-selected="false">International Context</a>
-							<a class="nav-item nav-link" id="nav-deaths-tab" data-toggle="tab" href="#nav-deaths" role="tab" aria-controls="nav-contact" aria-selected="false">Who is Dying and Where?</a>
+              <a class="nav-item nav-link" id="nav-map-tab" data-toggle="tab" href="#nav-map" role="tab" aria-controls="nav-profile" aria-selected="false">Gun Violence Across the US</a>
+							<a class="nav-item nav-link" id="nav-deaths-tab" data-toggle="tab" href="#nav-deaths" role="tab" aria-controls="nav-contact" aria-selected="false">Who is Dying and How?</a>
 							<a class="nav-item nav-link" id="nav-assaultwpn-tab" data-toggle="tab" href="#nav-assaultwpn" role="tab" aria-controls="nav-about" aria-selected="false">Assaults</a>
+              <a class="nav-item nav-link" id="nav-perps-tab" data-toggle="tab" href="#nav-perps" role="tab" aria-controls="nav-about" aria-selected="false">Perpetrators</a>
+              <a class="nav-item nav-link" id="nav-resources-tab" data-toggle="tab" href="#nav-resources" role="tab" aria-controls="nav-about" aria-selected="false">Additional Resources</a>
 						</div>
 					</nav>
 					<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
 						<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 							Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
 						</div>
-						<div class="tab-pane fade" id="nav-international" role="tabpanel" aria-labelledby="nav-international-tab" style="overflow-y: scroll; height:520px;">
+						<div class="tab-pane fade" id="nav-international" role="tabpanel" aria-labelledby="nav-international-tab" style="overflow-y: scroll; height:580px;">
               <div id="scroll-bar"></div>
               <div id="container">Gun violence is unfortunately an issue prevalent around the world.</div>
               <div id="container">Do you know what percentage of deaths are related to guns in countries around the world?</div>
               <div id="container">The OECD (Organization for Economic Co-Operation and Development) is a group of 36 countries with high-income economies, regarded as very developed countries.</div>
               <div id="container">Interact with the chart below to see what percentage of deaths are related to guns.</div>
-							<div class='tableauPlaceholder' id='viz1533183828645' style='position: relative'>
-								<noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Comparitive_International_Chart&#47;FirearmFatalityDashboard&#47;1_rss.png' style='border: none' /></a></noscript>
-								<object class='tableauViz'  style='display:none;'>
-									<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-									<param name='embed_code_version' value='3' />
-									<param name='site_root' value='' />
-									<param name='name' value='Comparitive_International_Chart&#47;FirearmFatalityDashboard' />
-									<param name='tabs' value='no' />
-									<param name='toolbar' value='yes' />
-									<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Comparitive_International_Chart&#47;FirearmFatalityDashboard&#47;1.png' />
-									<param name='animate_transition' value='yes' />
-									<param name='display_static_image' value='yes' />
-									<param name='display_spinner' value='yes' />
-									<param name='display_overlay' value='yes' />
-									<param name='display_count' value='yes' />
-									<param name='filter' value='publish=yes' />
-								</object>
-							</div>
-							<script type='text/javascript'>
-								var divElement = document.getElementById('viz1533183828645');
-								var vizElement = divElement.getElementsByTagName('object')[0];
-								vizElement.style.width='850px';
-								vizElement.style.height='527px';
-								var scriptElement = document.createElement('script');
-								scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-								vizElement.parentNode.insertBefore(scriptElement, vizElement);
-							</script>
+							<div class='tableauPlaceholder' id='viz1533491333513' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Comparitive_International_Chart&#47;FirearmFatalityDashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
+                <object class='tableauViz'  style='display:none;'>
+                  <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                  <param name='embed_code_version' value='3' />
+                  <param name='site_root' value='' />
+                  <param name='name' value='Comparitive_International_Chart&#47;FirearmFatalityDashboard2' />
+                  <param name='tabs' value='no' />
+                  <param name='toolbar' value='yes' />
+                  <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Comparitive_International_Chart&#47;FirearmFatalityDashboard2&#47;1.png' />
+                  <param name='animate_transition' value='yes' />
+                  <param name='display_static_image' value='yes' />
+                  <param name='display_spinner' value='yes' />
+                  <param name='display_overlay' value='yes' />
+                  <param name='display_count' value='yes' />
+                  <param name='filter' value='publish=yes' />
+                </object>
+              </div>
+              <script type='text/javascript'>
+                var divElement = document.getElementById('viz1533491333513');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                vizElement.style.width='850px';vizElement.style.height='527px';
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+              </script>
+              <div class="footnote"><p>*Note: All other causes of deaths include the following but are not limited to: poisonings, exposure to mechanical forces, animal contact, unintentional suffocation, adverse effects of medical treatment, and more.</p></div>
+              <div id="container">
+                <p><b><u>Key Highlights</u></b></p>
+                <ul>
+                  <li>1. The United States is second only to Mexico, ranked the 4th most war torn country in the world <a href="https://www.worldatlas.com/articles/the-world-s-most-war-torn-countries.html">(WorldAtlas)</a>, in the percentage of citizen lives lost because of Gun Assaults.<br></br></li>
+                  <li>2. About 10% of US deaths are a result of Gun Suicides.</li>
+                </ul>
+              </div>
               <script  src="js/index.js"></script>
 						</div>
-						<div class="tab-pane fade" id="nav-deaths" role="tabpanel" aria-labelledby="nav-deaths-tab">
-							Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
-							<div class='tableauPlaceholder' id='viz1533183917544' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Wh&#47;Who_Why&#47;FirearmFatalityDashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
-								<object class='tableauViz'  style='display:none;'>
-									<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-									<param name='embed_code_version' value='3' />
-									<param name='path' value='views&#47;Who_Why&#47;FirearmFatalityDashboard2?:embed=y&amp;:display_count=y&amp;publish=yes' />
-									<param name='toolbar' value='yes' />
-									<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Wh&#47;Who_Why&#47;FirearmFatalityDashboard2&#47;1.png' />
-									<param name='animate_transition' value='yes' />
-									<param name='display_static_image' value='yes' />
-									<param name='display_spinner' value='yes' />
-									<param name='display_overlay' value='yes' />
-									<param name='display_count' value='yes' />
-									<param name='filter' value='publish=yes' />
-								</object>
-							</div>
-							<script type='text/javascript'>
-								var divElement = document.getElementById('viz1533183917544');
-								var vizElement = divElement.getElementsByTagName('object')[0];
-								vizElement.style.width='1000px';vizElement.style.height='827px';
-								var scriptElement = document.createElement('script');
-								scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-								vizElement.parentNode.insertBefore(scriptElement, vizElement);
-							</script>
+            <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab" style="overflow-y: scroll; height:560px;">
+              <div class = map-container>
+                <div>
+                  <select id = "deathType">
+                    <option value="Assault" selected="selected">Assault</option>
+                    <option value="Suicide">Suicide</option>
+                    <!-- <option value="Accident">Accident</option> -->
+                  </select>
+                </div>
+                <svg id = "map" width = "960" height = "500"></svg>
+                <svg id = "slider" width = "960" height = "40"></svg>
+              </div>
+              <script  src="js/d3Map.js"></script>
+						</div>
+						<div class="tab-pane fade" id="nav-deaths" role="tabpanel" aria-labelledby="nav-deaths-tab" style="overflow-y: scroll; height:600px;">
+              <div id="scroll-bar"></div>
+              <div id="container">Are gun related deaths common in every state in the US? How do they rank against other causes of deaths?</div>
+              <div id="container">Have the rates in gun related deaths changed over the years in America?</div>
+              <div id="container">Lastly, do we know who is dying from these gun related deaths? Are certain groups more vulnerable than others?</div>
+              <div id="container">
+                <p>The charts below display the overall (1) rates and trends of top causes of death and (2) demographics such as age, race, and gender of those dying from gun related deaths in the entire country.</p>
+                <p>Click on a state on the map to display information for that particular state.</p>
+              </div>
+							<div class='tableauPlaceholder' id='viz1533504198051' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;RQ&#47;RQQPCGNBH&#47;1_rss.png' style='border: none' /></a></noscript>
+                <object class='tableauViz'  style='display:none;'>
+                  <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                  <param name='embed_code_version' value='3' />
+                  <param name='path' value='shared&#47;RQQPCGNBH' />
+                  <param name='toolbar' value='no' />
+                  <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;RQ&#47;RQQPCGNBH&#47;1.png' />
+                  <param name='animate_transition' value='yes' />
+                  <param name='display_static_image' value='yes' />
+                  <param name='display_spinner' value='yes' />
+                  <param name='display_overlay' value='yes' />
+                  <param name='display_count' value='yes' />
+                  <param name='filter' value='publish=yes' />
+                </object>
+              </div>
+              <script type='text/javascript'>
+                var divElement = document.getElementById('viz1533504198051');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                vizElement.style.width='1140px';vizElement.style.height='768px';
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+              </script>
+              <div id="container">
+                <ul>
+                  <li><b><u>Key Highlights</u></b></li>
+                  <li>????<br></br></li>
+                  <li>????</li>
+                </ul>
+              </div>
+              <script  src="js/index.js"></script>
 						</div>
 						<div class="tab-pane fade" id="nav-assaultwpn" role="tabpanel" aria-labelledby="nav-assaultwpn-tab">
 							Et et consectetur ipsum labore excepteur est proident excepteur ad velit occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat. Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
-							<div class='tableauPlaceholder' id='viz1533183963933' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;As&#47;Assault_by_weapon&#47;FirearmFatalityDashboard&#47;1_rss.png' style='border: none' /></a></noscript>
-								<object class='tableauViz'  style='display:none;'>
-									<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-									<param name='embed_code_version' value='3' />
-									<param name='site_root' value='' />
-									<param name='name' value='Assault_by_weapon&#47;FirearmFatalityDashboard' />
-									<param name='tabs' value='no' />
-									<param name='toolbar' value='yes' />
-									<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;As&#47;Assault_by_weapon&#47;FirearmFatalityDashboard&#47;1.png' />
-									<param name='animate_transition' value='yes' />
-									<param name='display_static_image' value='yes' />
-									<param name='display_spinner' value='yes' />
-									<param name='display_overlay' value='yes' />
-									<param name='display_count' value='yes' />
-									<param name='filter' value='publish=yes' />
-								</object>
-							</div>
-							<script type='text/javascript'>
-								var divElement = document.getElementById('viz1533183963933');
-								var vizElement = divElement.getElementsByTagName('object')[0];
-								vizElement.style.width='850px';vizElement.style.height='677px';
-								var scriptElement = document.createElement('script');
-								scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-								vizElement.parentNode.insertBefore(scriptElement, vizElement);
-							</script>
+
+						</div>
+            <div class="tab-pane fade" id="nav-perps" role="tabpanel" aria-labelledby="nav-perps-tab" style="overflow-y: scroll; height:600px;">
+              <div id="scroll-bar"></div>
+              <div id="container">An examination of gun violence trends is incomplete without considering who perpetrates violence with firearms.</div>
+              <div id="container">
+                <p>Perpetrators fall into 3 broad categories: </p>
+                <ul>
+                  <li>1. Those who commit individual murders (majority using firearms)</li>
+                  <li>2. Those who use firearms in mass shootings</li>
+                  <li>3. Those who commit suicide with firearms</li>
+                </ul>
+              </div>
+              <div id="container">While the motivations of those who do harm with guns is often hotly debated, the data presented here indicates distinct differences in lifestage for these three categories.</div>
+              <div id="container">
+                <p>People are most likely to commit murders when they are young, with one quarter of all murders committed in the early 20s, and more than half between the ages of 17 to 29.</p>
+                <p>Mass shooters skew slightly older, with 50% of events occurring when perpetrators are 25 to 39 years old.</p>
+                <p>Suicide by firearms spans a very broad age range, but is most pronounced for people in their 50s.</p>
+              </div>
+							<div class='tableauPlaceholder' id='viz1533504198051' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;RQ&#47;RQQPCGNBH&#47;1_rss.png' style='border: none' /></a></noscript>
+                <object class='tableauViz'  style='display:none;'>
+                  <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                  <param name='embed_code_version' value='3' />
+                  <param name='path' value='shared&#47;RQQPCGNBH' />
+                  <param name='toolbar' value='no' />
+                  <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;RQ&#47;RQQPCGNBH&#47;1.png' />
+                  <param name='animate_transition' value='yes' />
+                  <param name='display_static_image' value='yes' />
+                  <param name='display_spinner' value='yes' />
+                  <param name='display_overlay' value='yes' />
+                  <param name='display_count' value='yes' />
+                  <param name='filter' value='publish=yes' />
+                </object>
+              </div>
+              <script type='text/javascript'>
+                var divElement = document.getElementById('viz1533504198051');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                vizElement.style.width='1140px';vizElement.style.height='768px';
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+              </script>
+              <div id="container">
+                <ul>
+                  <li><b><u>Key Highlights</u></b></li>
+                  <li>????<br></br></li>
+                  <li>????</li>
+                </ul>
+              </div>
+              <script  src="js/index.js"></script>
 						</div>
 					</div>
 				</div>
