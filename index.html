@@ -39,10 +39,10 @@
 						</div>
 						<div class="tab-pane fade" id="nav-international" role="tabpanel" aria-labelledby="nav-international-tab" style="overflow-y: scroll; height:580px;">
               <div id="scroll-bar"></div>
-              <div id="container">Gun violence is unfortunately an issue prevalent around the world.</div>
-              <div id="container">Do you know what percentage of deaths are related to guns in countries around the world?</div>
+              <div id="container">Gun violence is present throughout the developed world.</div>
+              <div id="container">The portion of people dying from gun injuries varies significantly by country.</div>
               <div id="container">The OECD (Organization for Economic Co-Operation and Development) is a group of 36 countries with high-income economies, regarded as very developed countries.</div>
-              <div id="container">Interact with the chart below to see what percentage of deaths are related to guns.</div>
+              <div id="container">Interact with the chart below to see what percentage of deaths are related to guns and other causes in each OECD country.</div>
 							<div class='tableauPlaceholder' id='viz1533491333513' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Co&#47;Comparitive_International_Chart&#47;FirearmFatalityDashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
                 <object class='tableauViz'  style='display:none;'>
                   <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
@@ -79,26 +79,30 @@
               <script  src="js/index.js"></script>
 						</div>
             <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab" style="overflow-y: scroll; height:560px;">
+              <div id="scroll-bar"></div>
+              <div id="container">What do gun deaths in states and counties throughout the United States look like since 2000?</div>
+              <div id="container">Select from gun-related 'Assaults,' 'Suicides,' and 'Accidents' at the top left corner and scroll through the timeline to see how each are distributed around the US.</div>
               <div class = map-container>
                 <div>
                   <select id = "deathType">
                     <option value="Assault" selected="selected">Assault</option>
                     <option value="Suicide">Suicide</option>
-                    <!-- <option value="Accident">Accident</option> -->
+                    <option value="Accident">Accident</option>
                   </select>
                 </div>
                 <svg id = "map" width = "1080" height = "500"></svg>
                 <svg id = "slider" width = "1080" height = "40"></svg>
               </div>
               <script  src="js/d3Map.js"></script>
+              <script  src="js/index.js"></script>
 						</div>
 						<div class="tab-pane fade" id="nav-deaths" role="tabpanel" aria-labelledby="nav-deaths-tab" style="overflow-y: scroll; height:600px;">
               <div id="scroll-bar"></div>
-              <div id="container">Are gun related deaths common in every state in the US? How do they rank against other causes of deaths?</div>
-              <div id="container">Have the rates in gun related deaths changed over the years in America?</div>
-              <div id="container">Lastly, do we know who is dying from these gun related deaths? Are certain groups more vulnerable than others?</div>
+              <div id="container">Gun related deaths are common in every state in the US.  How do they rank against other causes of deaths in your state?</div>
+              <div id="container">How have the causes of death evolved over time? Have the rates in gun related deaths changed over the years across America?</div>
+              <div id="container">Which groups are most at risk from gun violence across the country?  Are certain groups more vulnerable than others?</div>
               <div id="container">
-                <p>The charts below display the overall (1) rates and trends of top causes of death and (2) demographics such as age, race, and gender of those dying from gun related deaths in the entire country.</p>
+                <p>Explore the charts below to discover more about the common causes of death and the victims of firearm deaths.</p>
                 <p>Click on a state on the map to display information for that particular state.</p>
               </div>
 							<div class='tableauPlaceholder' id='viz1533504198051' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;RQ&#47;RQQPCGNBH&#47;1_rss.png' style='border: none' /></a></noscript>
@@ -150,11 +154,37 @@
               </div>
               <div id="container">While the motivations of those who do harm with guns is often hotly debated, the data presented here indicates distinct differences in lifestage for these three categories.</div>
               <div id="container">
-                <p>People are most likely to commit murders when they are young, with one quarter of all murders committed in the early 20s, and more than half between the ages of 17 to 29.</p>
+                <p>People are most likely to commit murders when they are young. From 2012 to 2016, more than half occured when the perpetrator was between the ages of 17 and 29, peaking at 20-24 years old (25%).</p>
                 <p>Mass shooters skew slightly older, with 50% of events occurring when perpetrators are 25 to 39 years old.</p>
                 <p>Suicide by firearms spans a very broad age range, but is most pronounced for people in their 50s.</p>
               </div>
-
+              <div class='tableauPlaceholder' id='viz1533517000174' style='position: relative'><noscript><a href='#'><img alt='Heatmap ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;He&#47;Heatmap_Final_2&#47;Heatmap&#47;1_rss.png' style='border: none' /></a></noscript>
+                <object class='tableauViz'  style='display:none;'>
+                  <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                  <param name='embed_code_version' value='3' />
+                  <param name='site_root' value='' />
+                  <param name='name' value='Heatmap_Final_2&#47;Heatmap' />
+                  <param name='tabs' value='no' />
+                  <param name='toolbar' value='yes' />
+                  <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;He&#47;Heatmap_Final_2&#47;Heatmap&#47;1.png' />
+                  <param name='animate_transition' value='yes' />
+                  <param name='display_static_image' value='yes' />
+                  <param name='display_spinner' value='yes' />
+                  <param name='display_overlay' value='yes' />
+                  <param name='display_count' value='yes' />
+                  <param name='filter' value='publish=yes' />
+                </object>
+              </div>
+              <script type='text/javascript'>
+                var divElement = document.getElementById('viz1533517000174');
+                var vizElement = divElement.getElementsByTagName('object')[0];
+                vizElement.style.width='1140px';vizElement.style.height='627px';
+                var scriptElement = document.createElement('script');
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+              </script>
+              <div class="footnote" style="width: 1140px;"><p>"Mass Shooters" are defined as those killing or injuring 3 or more people in a given event.</p>
+              <p>"Number of Events" includes a total of events for all years selected.</p></div>
               <div id="container">
                 <p><b><u>Key Highlights</u></b></p>
                 <ul>
