@@ -1,6 +1,7 @@
-var width = 960,
+var width = 1080,
     height = 500,
     active = d3.select(null);
+    previous = d3.select(null);
 
 var margin = {top: 60, right: 30, bottom: 60, left: 80};
 
@@ -12,6 +13,20 @@ var path = d3.geoPath()
     .projection(projection);
 
 var svg = d3.select("#map");
+
+var tooltip_state = d3.select("body")
+	.append("div")
+  .attr("class", "tooltip")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("opacity", 0.0);
+
+var tooltip_county = d3.select("body")
+	.append("div")
+  .attr("class", "tooltip")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("opacity", 0.0);
 
 // Stepped slider functionality adapted from the following: https://bl.ocks.org/shashank2104/d7051d80e43098bf9a48e9b6d3e10e73
 var sliderMargin = {left: 30, right: 30},
@@ -105,31 +120,6 @@ var year = '2000';
 
 var color = d3.scaleSequential(d3.interpolateReds).domain([0.0,30.0]);
 
-var parseYear = d3.timeParse("%Y");
-
-// SET THE RANGES
-var x = d3.scaleTime().domain([parseYear(1999), parseYear(2016)]).range([0, width-margin.right-margin.left-12]);
-//var x = d3.scaleLinear().rangeRound([0, width]);
-var y = d3.scaleLinear().rangeRound([height/2, 0]);
-
-//*** DEFINE THE LINE ***
-var valueLine = d3.line()
-.x(function(d) { return x(d.Year); })
-.y(function(d) { return y(d.DeathRate); });
-
-
-//CREATE SVG CANVAS IN #graph div
-// Create the svg canvas in the "graph" div
-var svg_graph = d3.select("#graph")
-.append("svg")
-.style("width", width - margin.right)
-.style("height", height/2 + margin.top + margin.bottom + "px")
-// .attr("width", width + margin.left + margin.right)
-// .attr("height", height/2 + margin.top + margin.bottom)
-.append("g")
-.attr("transform","translate(" + margin.left + "," + margin.top + ")")
-.attr("class", "svg");
-
 var deathRates = {};
 var counties;
 var states;
@@ -143,19 +133,25 @@ d3.queue()
   .defer(d3.json, './data/death_rates_open_carry.json')
   .await(ready);
 
-function ready(error,deaths,county_features,state_features,chart_data) {
+function ready(error,deaths,county_features,state_features) {
   if(error) throw error;
 
   deathRates = deaths;
   counties = county_features;
   states = state_features;
-  dataGender = chart_data;
+  // console.log(counties);
 
   countyPaths.selectAll("path")
     .data(counties.features)
     .enter().append("path")
     .attr("d", path)
-    .attr("class", "counties");
+    .attr("class", "counties")
+    .on("click", reset)
+    .on("mouseover", function(d){
+      return tooltip_county.style("opacity",1.0).html("County: "+d.properties.NAME+"<br>Death Rate: "+parseFloat(deathRates[d.properties.County_Code][dType][year]['Death_Rate']).toFixed(2)+" per 100k");
+    })
+    .on("mousemove", function(){return tooltip_county.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+    .on("mouseout", function(){return tooltip_county.style("opacity", 0.0);});
 
   statePaths.selectAll("path")
     .data(states.features)
@@ -174,7 +170,12 @@ function ready(error,deaths,county_features,state_features,chart_data) {
     //   return("rgba(254,188,56,0.2)");}
     // else{
     //   return("rgba(216,198,132,0.2)")}})
-    .on("click", clicked);
+    .on("click", clicked)
+    .on("mouseover", function(d){
+      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Death Rate: "+parseFloat(d.properties[year]*100000).toFixed(2)+" per 100k");
+    })
+    .on("mousemove", function(){return tooltip_state.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+    .on("mouseout", function(){return tooltip_state.style("opacity", 0.0);});
 
   // console.log(deathRates);
   updateStates(year);
@@ -202,8 +203,12 @@ function clicked(d) {
     // console.log(stateFilter);
     return reset();
   };
+  statePaths.selectAll(".feature").style("fill","rgba(255,255,255,0.8)");
+
   active.classed("active", false);
-  active = d3.select(this).classed("active", true);
+  previous.style("fill","rgba(255,255,255,0.8)").style("pointer-events","auto");
+  active = d3.select(this).classed("active", true).style("fill","rgba(255,255,255,0.01)").style("pointer-events","none");
+  previous = active;
   stateFilter = this.getAttribute('name');
   // console.log(stateFilter);
 
@@ -225,22 +230,19 @@ function clicked(d) {
       .style("stroke-width", 1.5 / scale + "px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
-
   statePaths.selectAll(".feature")
-    .transition().duration(750)
-    .style("fill","rgba(255,255,255,0.1)");
+    .transition().duration(750);
 
   countyPaths.selectAll(".counties")
     .transition().duration(750)
     .style("stroke-width",1/scale+"px");
-
-  updateGraph(stateFilter);
 
 }
 
 function reset() {
   active.classed("active", false);
   active = d3.select(null);
+  previous.style("pointer-events","auto");
 
   statePaths.transition()
       .duration(750)
@@ -252,22 +254,12 @@ function reset() {
       .attr("transform", "");
 
   statePaths.selectAll(".feature")
-    .transition().duration(750);
-    // .style("fill", function(d){
-    // if(d.properties.Handguns == "Allowed with Restrictions"){
-    //   return("rgba(218,85,38,0.2)");}
-    // else if(d.properties.Handguns == "Prohibited") {
-    //   return("rgba(105,127,152,0.2)");}
-    // else if(d.properties.Handguns == "Permit Required") {
-    //   return("rgba(254,188,56,0.2)");}
-    // else{
-    //   return("rgba(216,198,132,0.2)")}});
+    .transition().duration(750)
+    .style("fill","rgba(255,255,255,0.01)");
 
   countyPaths.selectAll(".counties")
       .transition().duration(750)
       .style("stroke-width", "0px");
-
-  updateGraph('National');
 
 }
 
