@@ -76,6 +76,13 @@ ul {
   display: block;
   margin: auto;
 }
+#slider{
+  display: block;
+  margin: auto;
+}
+.map-container{
+  margin: 0 auto;
+}
 .feature {
   fill: rgba(255,255,255,0.01);
   stroke: gray;
@@ -145,4 +152,18 @@ ul {
 
 .selected {
   stroke: #EF5285;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: left;
+  color: white;
+  width: 225px;
+  height: 40px;
+  padding: 6px;
+  font: 0.7em sans-serif;
+  background: #39393a;
+  border: 0px;
+  /* border-radius: 8px; */
+  pointer-events: none;
 }
