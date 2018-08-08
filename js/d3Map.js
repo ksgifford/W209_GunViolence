@@ -141,8 +141,8 @@ function ready(error,deaths,county_features,state_deaths,state_features) {
   counties = county_features;
   stateRates = state_deaths;
   states = state_features;
-  console.log(stateRates);
-  console.log(states);
+  // console.log(stateRates);
+  // console.log(states);
 
   countyPaths.selectAll("path")
     .data(counties.features)
