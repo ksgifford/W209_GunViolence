@@ -123,7 +123,7 @@ var color = d3.scaleSequential(d3.interpolateReds).domain([0.0,30.0]);
 var deathRates = {};
 var counties;
 var states;
-var genderData;
+var shootings;
 var dType = 'Assault';
 var stateFilter = 'National';
 
@@ -132,15 +132,17 @@ d3.queue()
   .defer(d3.json, './data/US_Census_Counties_20180719.json')
   .defer(d3.json, './data/States_by_Year_by_Cat.json')
   .defer(d3.json, './data/US_Census_States_20m.json')
+  .defer(d3.json, './data/mass_shooting_events.json')
   .await(ready);
 
-function ready(error,deaths,county_features,state_deaths,state_features) {
+function ready(error,deaths,county_features,state_deaths,state_features,shooting_events) {
   if(error) throw error;
 
   deathRates = deaths;
   counties = county_features;
   stateRates = state_deaths;
   states = state_features;
+  shootings = shooting_events;
   // console.log(stateRates);
   // console.log(states);
 
@@ -151,7 +153,7 @@ function ready(error,deaths,county_features,state_deaths,state_features) {
     .attr("class", "counties")
     .on("click", reset)
     .on("mouseover", function(d){
-      return tooltip_county.style("opacity",1.0).html("County: "+d.properties.NAME+"<br>Death Rate: "+parseFloat(deathRates[d.properties.County_Code][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
+      return tooltip_county.style("opacity",1.0).html("County: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(deathRates[d.properties.County_Code][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
     })
     .on("mousemove", function(){return tooltip_county.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_county.style("opacity", 0.0);});
@@ -175,7 +177,7 @@ function ready(error,deaths,county_features,state_deaths,state_features) {
     //   return("rgba(216,198,132,0.2)")}})
     .on("click", clicked)
     .on("mouseover", function(d){
-      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Death Rate: "+parseFloat(stateRates[d.properties.NAME][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
+      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(stateRates[d.properties.NAME][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
     })
     .on("mousemove", function(){return tooltip_state.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_state.style("opacity", 0.0);});
