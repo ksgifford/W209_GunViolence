@@ -28,6 +28,13 @@ var tooltip_county = d3.select("body")
 	.style("z-index", "10")
 	.style("opacity", 0.0);
 
+var tooltip_shooting = d3.select("body")
+	.append("div")
+  .attr("class", "tooltipShooting")
+	.style("position", "absolute")
+	.style("z-index", "10")
+	.style("opacity", 0.0);
+
 // Stepped slider functionality adapted from the following: https://bl.ocks.org/shashank2104/d7051d80e43098bf9a48e9b6d3e10e73
 var sliderMargin = {left: 30, right: 30},
     range = [2000, 2016],
@@ -116,6 +123,9 @@ var statePaths = svg.append("g")
 var countyPaths = svg.append("g")
     .style("stroke-width", "1.5px");
 
+var shootingPoints = svg.append("g");
+var pointScale = d3.scaleLinear().range([6,30]);
+
 var year = '2000';
 
 var color = d3.scaleSequential(d3.interpolateReds).domain([0.0,30.0]);
@@ -126,6 +136,7 @@ var states;
 var shootings;
 var dType = 'Assault';
 var stateFilter = 'National';
+var scaleFactor = 1;
 
 d3.queue()
   .defer(d3.json, './data/Counties_by_Year_by_Cat.json')
@@ -145,6 +156,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
   shootings = shooting_events;
   // console.log(stateRates);
   // console.log(states);
+  console.log(shootings.features);
 
   countyPaths.selectAll("path")
     .data(counties.features)
@@ -163,28 +175,84 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .enter().append("path")
     .attr("d", path)
     .attr("name", function(d){
-    return d.properties.NAME;
-  })
+    return d.properties.NAME;})
     .attr("class", "feature")
-    // .style("fill", function(d){
-    // if(d.properties.Handguns == "Allowed with Restrictions"){
-    //   return("rgba(218,85,38,0.2)");}
-    // else if(d.properties.Handguns == "Prohibited") {
-    //   return("rgba(105,127,152,0.2)");}
-    // else if(d.properties.Handguns == "Permit Required") {
-    //   return("rgba(254,188,56,0.2)");}
-    // else{
-    //   return("rgba(216,198,132,0.2)")}})
     .on("click", clicked)
     .on("mouseover", function(d){
-      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(stateRates[d.properties.NAME][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
-    })
+      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(stateRates[d.properties.NAME][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");})
     .on("mousemove", function(){return tooltip_state.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_state.style("opacity", 0.0);});
+
+  var min = 3;
+  var max = 0;
+  for(i=0; i<shootings.features.length; i++){
+    if(shootings.features[i].properties.Fatalities > max){
+      max = shootings.features[i].properties.Fatalities;
+    };
+  };
+  pointScale.domain([min,max]);
+
+  shootingPoints.selectAll("circle")
+    .data(shootings.features)
+    .enter().append("circle")
+    .attr("class","shootings")
+    .attr("cx", function(d){return projection(d.geometry.coordinates)[0];})
+    .attr("cy", function(d){return projection(d.geometry.coordinates)[1];})
+    // .attr("r", function(d){return d.properties.Fatalities/2;})
+    .attr("r", 0)
+    .style("opacity",function(d){
+      if(d.properties.Year == year){
+        return 0.8;
+      }
+      else if(d.properties.Year == (year - 1)){
+        return 0.8;
+      }
+      else{
+        return 0.0;
+      };})
+    .style("fill",function(d){
+      if(d.properties.Year == year){
+        return "red";
+      }
+      else if(d.properties.Year == (year - 1)){
+        return "red";
+      }
+      else{
+        return "gray";
+      };})
+    .on("mouseover", function(d){
+      return tooltip_shooting.style("opacity",1.0).html("Incident: "+d.properties.Case+"<br>Date: "+d.properties.Date+"<br>Location: "+d.properties.Location+"<br>Fatalities: "+d.properties.Fatalities);})
+    .on("mousemove", function(){return tooltip_shooting.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+    .on("mouseout", function(){return tooltip_shooting.style("opacity", 0.0);});;
+
+  shootingPoints.selectAll("circle")
+    .transition().duration(750)
+    .attr("r", function(d){return pointScale(d.properties.Fatalities)/scaleFactor;});
+
+  d3.select('#showShootings').on("change",shootVis);
+  shootVis();
 
   // console.log(deathRates);
   updateStates(year);
 
+}
+
+function shootVis(){
+  if(d3.select('#showShootings').property("checked")){
+    shootingPoints.selectAll("circle")
+    // .style("opacity",function(d){
+    // return d.properties.Year == year ? "0.9":"0.4";});
+    .transition().duration(750)
+    .attr("r", function(d){
+      return pointScale(d.properties.Fatalities)/scaleFactor;
+    });
+  }
+  else{
+    shootingPoints.selectAll("circle")
+    // .style("opacity",0)
+    .transition().duration(750)
+    .attr("r", 0);
+  };
 }
 
 function updateStates(x) {
@@ -198,9 +266,34 @@ function updateStates(x) {
       return color(deathRates[d.properties.County_Code][dType][year]['Death_Rate']);}
     catch(error){return 0;}
   });
+
+  shootingPoints.selectAll(".shootings")
+    .style("opacity",function(d){
+      if(d.properties.Year == year){
+        return 0.8;
+      }
+      else if(d.properties.Year == (year - 1)){
+        return 0.8;
+      }
+      else{
+        return 0.0;
+      };
+    })
+    .style("fill",function(d){
+      if(d.properties.Year == year){
+        return "red";
+      }
+      else if(d.properties.Year == (year - 1)){
+        return "red";
+      }
+      else{
+        return "gray";
+      };
+    });
 };
 
 statePaths.raise();
+shootingPoints.raise();
 
 function clicked(d) {
   if (active.node() === this) {
@@ -225,6 +318,8 @@ function clicked(d) {
       scale = .9 / Math.max(dx / width, dy / height),
       translate = [width / 2 - scale * x, height / 2 - scale * y];
 
+  scaleFactor = scale;
+
   statePaths.transition()
       .duration(750)
       .style("stroke-width", 1.5 / scale + "px")
@@ -235,6 +330,12 @@ function clicked(d) {
       .style("stroke-width", 1.5 / scale + "px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
+  shootingPoints.transition()
+      .duration(750)
+      // .attr("r", function(d){return d.properties.Fatalities/scale;})
+      // .attr("r", 2)
+      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
   statePaths.selectAll(".feature")
     .transition().duration(750);
 
@@ -242,12 +343,18 @@ function clicked(d) {
     .transition().duration(750)
     .style("stroke-width",1/scale+"px");
 
+  shootingPoints.selectAll(".shootings")
+    .transition().duration(750)
+    .attr("r",function(d){return pointScale(d.properties.Fatalities)/scaleFactor});
+
 }
 
 function reset() {
   active.classed("active", false);
   active = d3.select(null);
   previous.style("pointer-events","auto");
+
+  scaleFactor = 1;
 
   statePaths.transition()
       .duration(750)
@@ -258,6 +365,10 @@ function reset() {
       .duration(750)
       .attr("transform", "");
 
+  shootingPoints.transition()
+      .duration(750)
+      .attr("transform", "");
+
   statePaths.selectAll(".feature")
     .transition().duration(750)
     .style("fill","rgba(255,255,255,0.01)");
@@ -265,6 +376,10 @@ function reset() {
   countyPaths.selectAll(".counties")
       .transition().duration(750)
       .style("stroke-width", "0px");
+
+  shootingPoints.selectAll(".shootings")
+    .transition().duration(750)
+    .attr("r",function(d){return pointScale(d.properties.Fatalities)/scaleFactor;});
 
 }
 
