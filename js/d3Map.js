@@ -138,6 +138,53 @@ var dType = 'Assault';
 var stateFilter = 'National';
 var scaleFactor = 1;
 
+var legendSvg = d3.select('#legend-svg')
+    .attr('width', 110)
+    .attr('height', 210)
+    .append('g')
+    .attr('transform', 'translate(' + 0 + ',' +
+    0 + ')');
+
+//Append a defs (for definition) element to your SVG
+var defs = legendSvg.append("defs");
+
+//Append a linearGradient element to the defs and give it a unique id
+var linearGradient = defs.append("linearGradient")
+    .attr("id", "linear-gradient")
+    .attr("gradientTransform", "rotate(90)");
+
+linearGradient.selectAll("stop")
+  .data(color.ticks().map((t, i, n) => ({ offset: `${100*i/n.length}%`, color: color(t) })))
+  .enter().append("stop")
+  .attr("offset", d => d.offset)
+  .attr("stop-color", d => d.color);
+
+legendSvg.append('g')
+    .attr("transform", `translate(0,5)`)
+    .append("rect")
+    .attr('transform', `translate(0,5)`)
+	.attr("width", 50)
+	.attr("height", 200)
+	.style("fill", "url(#linear-gradient)");
+
+var legendscale = d3.scaleLinear()
+    .range([5, 200])
+    .domain(color.domain());
+var legendaxis = d3.axisRight()
+    .scale(legendscale)
+    .tickSize(6)
+    .ticks(8);
+
+legendSvg
+    .append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(" + (52) + "," + (5) + ")")
+    .call(legendaxis);
+
+
+// legendSvg.selectAll('g')
+//   .attr("gradientTransform", "rotate(45)");
+
 d3.queue()
   .defer(d3.json, './data/Counties_by_Year_by_Cat.json')
   .defer(d3.json, './data/US_Census_Counties_20180719.json')
@@ -156,7 +203,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
   shootings = shooting_events;
   // console.log(stateRates);
   // console.log(states);
-  console.log(shootings.features);
+  // console.log(shootings.features);
 
   countyPaths.selectAll("path")
     .data(counties.features)
