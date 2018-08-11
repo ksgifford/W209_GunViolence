@@ -181,9 +181,11 @@ legendSvg
     .attr("transform", "translate(" + (52) + "," + (5) + ")")
     .call(legendaxis);
 
+d3.select("#massShootingLegend")
+  .enter().append("circle")
+  .attr("class","shootings")
+  .attr("r",6);
 
-// legendSvg.selectAll('g')
-//   .attr("gradientTransform", "rotate(45)");
 
 d3.queue()
   .defer(d3.json, './data/Counties_by_Year_by_Cat.json')
@@ -249,23 +251,23 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .attr("r", 0)
     .style("opacity",function(d){
       if(d.properties.Year == year){
-        return 0.8;
+        return 0.7;
       }
       else if(d.properties.Year == (year - 1)){
-        return 0.8;
+        return 0.7;
       }
       else{
         return 0.0;
       };})
-    .style("fill",function(d){
+    .style("pointer-events",function(d){
       if(d.properties.Year == year){
-        return "red";
+        return "auto";
       }
       else if(d.properties.Year == (year - 1)){
-        return "red";
+        return "auto";
       }
       else{
-        return "gray";
+        return "none";
       };})
     .on("mouseover", function(d){
       return tooltip_shooting.style("opacity",1.0).html("Incident: "+d.properties.Case+"<br>Date: "+d.properties.Date+"<br>Location: "+d.properties.Location+"<br>Fatalities: "+d.properties.Fatalities);})
@@ -317,24 +319,24 @@ function updateStates(x) {
   shootingPoints.selectAll(".shootings")
     .style("opacity",function(d){
       if(d.properties.Year == year){
-        return 0.8;
+        return 0.7;
       }
       else if(d.properties.Year == (year - 1)){
-        return 0.8;
+        return 0.7;
       }
       else{
         return 0.0;
       };
     })
-    .style("fill",function(d){
+    .style("pointer-events",function(d){
       if(d.properties.Year == year){
-        return "red";
+        return "auto";
       }
       else if(d.properties.Year == (year - 1)){
-        return "red";
+        return "auto";
       }
       else{
-        return "gray";
+        return "none";
       };
     });
 };

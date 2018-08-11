@@ -124,12 +124,14 @@
             <p class="lead">Click on a state to explore county-level data and use the slider to see how death rates have changed over time.</p>
             <div class = map-container style="position: relative">
               <div style="position: absolute; top:0; width: 150px;">
+                <!-- <p>Fatality Category:</p> -->
                 <select id = "deathType">
                   <option value="Assault" selected="selected">Assault</option>
                   <option value="Suicide">Suicide</option>
                   <option value="Accident">Accident</option>
                 </select><br><br>
-                <input type="checkbox" id="showShootings" checked="checked"> Show Mass Shooting Events<br><br>
+                <input type="checkbox" id="showShootings" checked="checked"> Show Mass Shooting Events <br>
+                <span class="dot"></span><br><br>
                 <svg id="legend-svg"></svg>
                 <div class="legendNote" width="100px" height="50px">
                   <p>Deaths per 100,000 <br>population</p>
@@ -156,7 +158,7 @@
             </div>
             <div class="spacer" style="height:200px"></div>
 
-            <p class="lead">How do gun deaths rank against other causes of death in your state?</p>
+            <p class="lead">Click on your state to see its demographics reflected in the charts.</p>
             <div class='tableauPlaceholder' id='viz1533788069161' style='position: relative'><noscript><a href='#'><img alt='Comparative Statistics of Firearm-Related Deaths in the United States  ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DC&#47;DCC75QMXJ&#47;1_rss.png' style='border: none' /></a></noscript>
               <object class='tableauViz'  style='display:none;'>
                 <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
@@ -319,13 +321,6 @@
 
                 <h5>Weapons</h5>
                 <p>FBI Expanded Homicide Data Table 4, 2009-2016.</p>
-
-              <h4>Additional Resources</h4>
-                <p><b>Background on Declining Traffic Accidents</b><br>
-                <a href="https://www.nytimes.com/2011/04/01/us/01driving.html">https://www.nytimes.com/2011/04/01/us/01driving.html</a></p>
-
-                <p><b>Background on the increase in Drug Related Deaths</b><br>
-                <a href="https://www.cdc.gov/media/releases/2018/p0329-drug-overdose-deaths.html">https://www.cdc.gov/media/releases/2018/p0329-drug-overdose-deaths.html</a></p>
 
           </div>
         </div>

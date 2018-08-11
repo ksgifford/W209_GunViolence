@@ -35,7 +35,7 @@
   fill: red;
   stroke: black;
   stroke-width: 0.2%;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 /* Slider styling adapted from Mike Bostock's Drag Slider */
@@ -93,7 +93,7 @@
   position: absolute;
   text-align: left;
   color: white;
-  width: 250px;
+  width: auto;
   height: 60px;
   padding: 8px;
   font: 0.75em sans-serif;
@@ -107,7 +107,7 @@
   position: absolute;
   text-align: left;
   color: white;
-  width: 280px;
+  width: auto;
   height: 75px;
   padding: 8px;
   font: 0.75em sans-serif;
@@ -126,4 +126,14 @@
 
 .legendNote{
   font: 0.6em sans-serif;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.7;
 }
