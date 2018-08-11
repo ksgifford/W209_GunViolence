@@ -214,8 +214,18 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .attr("class", "counties")
     .on("click", reset)
     .on("mouseover", function(d){
-      return tooltip_county.style("opacity",1.0).html("County: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(deathRates[d.properties.County_Code][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");
-    })
+      var rate;
+      var msg;
+      try{
+        rate = deathRates[d.properties.County_Code][dType][year]['Death_Rate'];
+        msg = parseFloat(rate).toFixed(3)+" per 100,000 population";
+      }
+      catch(err){
+        rate = 0;
+        msg = "Fewer than 10 deaths recorded"
+      };
+      return tooltip_county.style("opacity",0.85).html("County: "
+      +d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+msg);})
     .on("mousemove", function(){return tooltip_county.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_county.style("opacity", 0.0);});
 
@@ -228,7 +238,18 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .attr("class", "feature")
     .on("click", clicked)
     .on("mouseover", function(d){
-      return tooltip_state.style("opacity",1.0).html("State: "+d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+parseFloat(stateRates[d.properties.NAME][dType][year]['Death_Rate']).toFixed(3)+" per 100,000 population");})
+      var rate;
+      var msg;
+      try{
+        rate = stateRates[d.properties.NAME][dType][year]['Death_Rate'];
+        msg = parseFloat(rate).toFixed(3)+" per 100,000 population";
+      }
+      catch(err){
+        rate = 0;
+        msg = "Fewer than 10 deaths recorded"
+      };
+      return tooltip_state.style("opacity",0.85).html("State: "
+      +d.properties.NAME+"<br>Year: "+year+"<br>Death Rate: "+msg);})
     .on("mousemove", function(){return tooltip_state.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_state.style("opacity", 0.0);});
 
@@ -270,7 +291,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
         return "none";
       };})
     .on("mouseover", function(d){
-      return tooltip_shooting.style("opacity",1.0).html("Incident: "+d.properties.Case+"<br>Date: "+d.properties.Date+"<br>Location: "+d.properties.Location+"<br>Fatalities: "+d.properties.Fatalities);})
+      return tooltip_shooting.style("opacity",0.85).html("Incident: "+d.properties.Case+"<br>Date: "+d.properties.Date+"<br>Location: "+d.properties.Location+"<br>Fatalities: "+d.properties.Fatalities);})
     .on("mousemove", function(){return tooltip_shooting.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_shooting.style("opacity", 0.0);});;
 
