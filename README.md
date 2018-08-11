@@ -35,6 +35,7 @@ Global Burden of Disease Collaborative Network.
 Global Burden of Disease Study 2016 (GBD 2016) Results.  
 Seattle, United States: Institute for Health Metrics and Evaluation (IHME), 2017.  
 Available from http://ghdx.healthdata.org/gbd-results-tool.  
+
 U.S. Gun Deaths (Firearm Related Assaults, Suicides & Accidents)  
 Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. Other external causes of accidental injury, Intentional self-harm, Assault by Firearms.
 
