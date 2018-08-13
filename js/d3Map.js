@@ -1,3 +1,4 @@
+// Map setup
 var width = 1080,
     height = 500,
     active = d3.select(null);
@@ -14,6 +15,7 @@ var path = d3.geoPath()
 
 var svg = d3.select("#map");
 
+// Set up tooltips for map hover events
 var tooltip_state = d3.select("body")
 	.append("div")
   .attr("class", "tooltip")
@@ -110,6 +112,7 @@ function dragged(value) {
   updateStates(xVal);
 }
 
+// Establish map elements, including state and county boundaries and mass shooting location points.
 svg.append("rect")
     .attr("class", "background")
     .attr("fill","none")
@@ -126,18 +129,24 @@ var countyPaths = svg.append("g")
 var shootingPoints = svg.append("g");
 var pointScale = d3.scaleLinear().range([6,30]);
 
+// Set starting year for map time slider
 var year = '2000';
 
+// Color scale for counties
 var color = d3.scaleSequential(d3.interpolateReds).domain([0.0,30.0]);
 
+// Variables to hold map data
 var deathRates = {};
 var counties;
 var states;
 var shootings;
+
+// Initialize gun death category, state filter, and map scaling
 var dType = 'Assault';
 var stateFilter = 'National';
 var scaleFactor = 1;
 
+// Set up color gradient for legend
 var legendSvg = d3.select('#legend-svg')
     .attr('width', 110)
     .attr('height', 210)
@@ -145,10 +154,8 @@ var legendSvg = d3.select('#legend-svg')
     .attr('transform', 'translate(' + 0 + ',' +
     0 + ')');
 
-//Append a defs (for definition) element to your SVG
 var defs = legendSvg.append("defs");
 
-//Append a linearGradient element to the defs and give it a unique id
 var linearGradient = defs.append("linearGradient")
     .attr("id", "linear-gradient")
     .attr("gradientTransform", "rotate(90)");
@@ -170,6 +177,7 @@ legendSvg.append('g')
 var legendscale = d3.scaleLinear()
     .range([5, 200])
     .domain(color.domain());
+
 var legendaxis = d3.axisRight()
     .scale(legendscale)
     .tickSize(6)
@@ -186,7 +194,7 @@ d3.select("#massShootingLegend")
   .attr("class","shootings")
   .attr("r",6);
 
-
+// Establish queue for data loading and proceed when everything is complete
 d3.queue()
   .defer(d3.json, './data/Counties_by_Year_by_Cat.json')
   .defer(d3.json, './data/US_Census_Counties_20180719.json')
@@ -207,6 +215,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
   // console.log(states);
   // console.log(shootings.features);
 
+  // Create paths for county boundaries, bind data, and establish tooltip functionality
   countyPaths.selectAll("path")
     .data(counties.features)
     .enter().append("path")
@@ -229,6 +238,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .on("mousemove", function(){return tooltip_county.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_county.style("opacity", 0.0);});
 
+  // Create paths for state boundaries, bind data, and establish tooltip functionality
   statePaths.selectAll("path")
     .data(states.features)
     .enter().append("path")
@@ -253,6 +263,7 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .on("mousemove", function(){return tooltip_state.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
     .on("mouseout", function(){return tooltip_state.style("opacity", 0.0);});
 
+  // Calculate domain for mass shooting point size scale
   var min = 3;
   var max = 0;
   for(i=0; i<shootings.features.length; i++){
@@ -262,14 +273,15 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
   };
   pointScale.domain([min,max]);
 
+  // Add mass shooting points to map, bind data, and establish tooltip and time slider functionality
   shootingPoints.selectAll("circle")
     .data(shootings.features)
     .enter().append("circle")
     .attr("class","shootings")
     .attr("cx", function(d){return projection(d.geometry.coordinates)[0];})
     .attr("cy", function(d){return projection(d.geometry.coordinates)[1];})
-    // .attr("r", function(d){return d.properties.Fatalities/2;})
     .attr("r", 0)
+    // Bin shooting data into 2-year increments to match the state and county death data timeline
     .style("opacity",function(d){
       if(d.properties.Year == year){
         return 0.7;
@@ -299,19 +311,18 @@ function ready(error,deaths,county_features,state_deaths,state_features,shooting
     .transition().duration(750)
     .attr("r", function(d){return pointScale(d.properties.Fatalities)/scaleFactor;});
 
+  // Create toggle to show/hide mass shooting points.
   d3.select('#showShootings').on("change",shootVis);
   shootVis();
 
-  // console.log(deathRates);
   updateStates(year);
 
 }
 
+// Function to show and hide mass shooting points based on user input
 function shootVis(){
   if(d3.select('#showShootings').property("checked")){
     shootingPoints.selectAll("circle")
-    // .style("opacity",function(d){
-    // return d.properties.Year == year ? "0.9":"0.4";});
     .transition().duration(750)
     .attr("r", function(d){
       return pointScale(d.properties.Fatalities)/scaleFactor;
@@ -325,9 +336,9 @@ function shootVis(){
   };
 }
 
+// Function to update state, county, and shooting point data based on the year selected in the time slider.
 function updateStates(x) {
   year = x.toString();
-  // console.log(yr);
 
   countyPaths.selectAll(".counties")
     .data(counties.features)
@@ -365,6 +376,7 @@ function updateStates(x) {
 statePaths.raise();
 shootingPoints.raise();
 
+// Function to govern zoom behavior
 function clicked(d) {
   if (active.node() === this) {
     stateFilter = 'National';
@@ -378,7 +390,6 @@ function clicked(d) {
   active = d3.select(this).classed("active", true).style("fill","rgba(255,255,255,0.01)").style("pointer-events","none");
   previous = active;
   stateFilter = this.getAttribute('name');
-  // console.log(stateFilter);
 
   var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -402,8 +413,6 @@ function clicked(d) {
 
   shootingPoints.transition()
       .duration(750)
-      // .attr("r", function(d){return d.properties.Fatalities/scale;})
-      // .attr("r", 2)
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 
   statePaths.selectAll(".feature")
@@ -419,6 +428,7 @@ function clicked(d) {
 
 }
 
+// Function to reset map view to national scale
 function reset() {
   active.classed("active", false);
   active = d3.select(null);
@@ -453,10 +463,10 @@ function reset() {
 
 }
 
+// Filter death rate data based on death type selection from dropdown menu (Assault, Suicide, or Accident)
 d3.select('#deathType')
   .on("change", function(){
   var sect = document.getElementById("deathType");
   dType = sect.options[sect.selectedIndex].value;
-  // console.log(dType);
   updateStates(year);
   });

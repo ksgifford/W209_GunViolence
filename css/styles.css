@@ -1,3 +1,4 @@
+/* Styles for website body */
 .footnote{
   /* margin: 0 auto; */
   /* width: 850px;
@@ -6,7 +7,14 @@
   font-style: italic!important;
   /* padding-bottom: 40px; */
 }
+.greybox{
+  width: 100%;
+  background-color: #708090!important;
+  color: #fff;
+  padding: 8px;
+}
 
+/* Styles for D3 map */
 #map{
   display: block;
   margin: auto;
@@ -36,6 +44,34 @@
   stroke: black;
   stroke-width: 0.2%;
   opacity: 0.7;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: left;
+  color: white;
+  width: auto;
+  height: 60px;
+  padding: 8px;
+  font: 0.75em sans-serif;
+  background: #39393a;
+  border: 0px;
+  /* border-radius: 8px; */
+  pointer-events: none;
+}
+
+.tooltipShooting {
+  position: absolute;
+  text-align: left;
+  color: white;
+  width: auto;
+  height: 75px;
+  padding: 8px;
+  font: 0.75em sans-serif;
+  background: #7F2626;
+  border: 0px;
+  /* border-radius: 8px; */
+  pointer-events: none;
 }
 
 /* Slider styling adapted from Mike Bostock's Drag Slider */
@@ -89,45 +125,7 @@
   stroke: #EF5285;
 }
 
-.tooltip {
-  position: absolute;
-  text-align: left;
-  color: white;
-  width: auto;
-  height: 60px;
-  padding: 8px;
-  font: 0.75em sans-serif;
-  background: #39393a;
-  border: 0px;
-  /* border-radius: 8px; */
-  pointer-events: none;
-}
-
-.tooltipShooting {
-  position: absolute;
-  text-align: left;
-  color: white;
-  width: auto;
-  height: 75px;
-  padding: 8px;
-  font: 0.75em sans-serif;
-  background: #7F2626;
-  border: 0px;
-  /* border-radius: 8px; */
-  pointer-events: none;
-}
-
-.greybox{
-  width: 100%;
-  background-color: #708090!important;
-  color: #fff;
-  padding: 8px;
-}
-
-.legendNote{
-  font: 0.6em sans-serif;
-}
-
+/* Styles for map legend items */
 .dot {
   height: 20px;
   width: 20px;
@@ -136,4 +134,7 @@
   border-radius: 50%;
   display: inline-block;
   opacity: 0.7;
+}
+.legendNote{
+  font: 0.6em sans-serif;
 }
